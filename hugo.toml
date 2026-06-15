@@ -1,7 +1,7 @@
 baseURL = 'https://SewiR3.github.io/engineering-log/'
 title = 'Engineering Log'
 theme = 'anatole'
-locale = "en-us'
+locale = 'en-us'
 
 [privacy]
   [privacy.disqus]
