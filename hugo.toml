@@ -1,6 +1,14 @@
-baseURL = 'https://SewiR3.github.io/engineering-log/'
-title = 'Engineering Log'
-theme = 'anatole'
+baseURL = "https://SewiR3.github.io/engineering-log/"
+title = "Engineering Log"
+theme = "PaperMod"
+
+[params]
+  disableThemeToggle = false
+  hideFooter = false
+  ShowReadingTime = false
+  ShowWordCount = false
+  comments = false
+  customcss = ["css/custom.css"]
 
 [privacy]
   disallow = ["twitter", "youtube", "vimeo", "instagram", "disqus", "googleanalytics"]

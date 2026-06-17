@@ -1,7 +1,8 @@
 ---
-title: "Why the LEDs Would Not Blink When Connected in Parallel to a 556 Circuit"
+title: "Why parallel LEDs would not blink in a 556 circuit"
 date: 2026-06-08
 draft: false
+summary: "Diagnosing a 556 timer warning light circuit: parallel LEDs refused to blink because of current hogging and a missing per‑LED current‑limiting resistor."
 ---
 
 ## Context
@@ -24,11 +25,14 @@ Additionally, the 556's output pin sources current when high, but I had wired th
 
 ## Fix
 1. **Independent resistors:** Each LED got its own 220 Ω resistor, either from Vcc to anode (active-low) or from cathode to GND (active-high). Both worked.
+
 2. **Confirmed wiring:** In active-low configuration, when the output went low, both LEDs turned on equally. Blinking returned immediately.
 
 ## Lesson
 - Never parallel LEDs without individual current-limiting resistors. The one with slightly lower Vf steals current, leading to one bright LED and one off, or total output collapse if the driver can't maintain voltage.
+
 - Always check the datasheet for output drive capability: the 556 can sink/source decent current, but a short or near-short (unequal parallel LEDs) can overload it.
+
 - A simple scope check of the output pin under load pinpointed the collapse.
 
 ## Schematic Snippet

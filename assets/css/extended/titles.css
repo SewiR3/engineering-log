@@ -1,0 +1,44 @@
+/* Reduce list page title sizes (PaperMod) */
+.first-entry .entry-header h2 {
+  font-size: 1.5rem !important;   /* was 40px */
+}
+
+.entry-header h2 {
+  font-size: 1rem !important;   /* was 24px */
+}
+
+/* Reduce post title size on list pages and single post pages */
+
+.post-title {
+  font-size: 1rem !important;       /* was typically 2rem or larger */
+  line-height: 1 !important;
+}
+
+.post-title a {
+  font-size: inherit !important;
+}
+
+/* Single post title (h1) */
+.post-single .post-title {
+  font-size: 1.8rem !important;
+}
+
+/* Heading sizes inside posts */
+.post-content h1 { font-size: 1.5rem !important; }
+.post-content h2 { font-size: 1.3rem !important; }
+.post-content h3 { font-size: 1.1rem !important; }
+.post-content h4 { font-size: 1rem !important; }
+
+.logo a {
+    font-size: 1rem !important;
+    font-weight: 400;
+}
+
+.header-nav a {
+a {
+    text-decoration: yes;
+}
+a, button, body, h1, h2, h3, h4, h5, h6 {
+    color: var(--primary);
+}
+}

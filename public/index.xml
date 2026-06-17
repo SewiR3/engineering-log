@@ -1,25 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Engineering Log</title>
     <link>http://localhost:1313/engineering-log/</link>
     <description>Recent content on Engineering Log</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 15 Jun 2026 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/engineering-log/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 08 Jun 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/engineering-log/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Why the LEDs Would Not Blink When Connected in Parallel to a 556 Circuit</title>
-      <link>http://localhost:1313/engineering-log/posts/why-the-leds-will-not-blink-when-connected-parallel-in-a-556-circuit/</link>
-      <pubDate>Mon, 15 Jun 2026 00:00:00 +0000</pubDate>
-      
-      <guid>http://localhost:1313/engineering-log/posts/why-the-leds-will-not-blink-when-connected-parallel-in-a-556-circuit/</guid>
-      
-        <description>&lt;h2 id=&#34;context&#34;&gt;Context&lt;/h2&gt;
-&lt;p&gt;Traffic light subsystem for ENG1013. A 556 dual timer generates a flashing signal for warning lights (WL2). The output (pin 5 or 9) was supposed to drive two red LEDs that flash alternately.&lt;/p&gt;
-&lt;h2 id=&#34;symptom&#34;&gt;Symptom&lt;/h2&gt;
-&lt;p&gt;When I connected the two LEDs in parallel directly to the output pin, neither blinked. The 556&amp;rsquo;s output measured a flat ~0.6 V. Removing one LED made the other blink faintly. Something was dragging the output low.&lt;/p&gt;</description>
-      
+      <title>Why parallel LEDs would not blink in a 556 circuit</title>
+      <link>http://localhost:1313/engineering-log/posts/why-parallel-leds-would-not-blink-in-a-556-circuit/</link>
+      <pubDate>Mon, 08 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/engineering-log/posts/why-parallel-leds-would-not-blink-in-a-556-circuit/</guid>
+      <description>Diagnosing a 556 timer warning light circuit: parallel LEDs refused to blink because of current hogging and a missing per‑LED current‑limiting resistor.</description>
     </item>
-    
   </channel>
 </rss>
