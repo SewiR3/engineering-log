@@ -16,9 +16,10 @@ Traffic light subsystem 4 circuit in unit ENG1013 included a warning light secti
   - The 556 timer section was reviewed and confirmed that it was correctly connected to the positive and negative rails.
   - The WL2 section was analysed, and it was identified that both parallel branches had an identical configuration. This was therefore the root cause.
 
-![*The configuration of the 556 timer ($U_3$) with resistors $R_3$, $R_4$, $R_5$ and capacitor $C_1$](556_timer.png)
+ 
+<img src="556_timer.png" alt="556 timer">
+<p style="font-size:0.9em; color:#4d4d4d; font-style:italic; text-align:center;">The configuration of the 556 timer ($U_3$) with resistors $R_3$, $R_4$, $R_5$ and capacitor $C_1$.</p>
 
-The configuration of the 556 timer ($U_3$) with resistors $R_3$, $R_4$, $R_5$ and capacitor $C_1$.
 ## Root Cause
 
 Each branch of WL2 consisted of two identically configured "LED + resistor" strings connected in parallel. Each red LED was labelled with D- and each resistor (330 Ω) was labelled with R-.
@@ -30,9 +31,8 @@ During charging of the capacitor (C1), the lower comparator (inside Timer B of 5
 
 Since both branches shared the same nodes at both ends (between Output pin and GND), all the LEDs illuminated simultaneously.
 
-![Image is not yet published - Internal block diagram of a 555 timer (Timer A/B of the 556). Reproduced from Horowitz & Hill, *The Art of Electronics*, 3rd ed., 2015, p. 428.]()
-
-Internal block diagram of a 555 timer (Timer A/B of the 556). Reproduced from Horowitz & Hill, *The Art of Electronics*, 3rd ed., 2015, p. 428.
+<img src="" alt="555 timer">
+<p style="font-size:0.9em; color:#4d4d4d; font-style:italic; text-align:center;">Internal block diagram of a 555 timer (Timer A/B of the 556). Reproduced from Horowitz & Hill, *The Art of Electronics*, 3rd ed., 2015, p. 428.</p>
 
 ## Fix #1
 
@@ -49,8 +49,9 @@ However, since the internal transistor inside the Output Driver still needed a s
 
 This solved the light dimming issue by using the transistor's threshold voltage (~2.0 V) to block the current path; therefore, when the node voltages in both sides were identical (5 V), the voltage difference equaled 0 V, current was 0 A. As a result, the D4 and D6 turned off.
 
-![Final configuration of the WL2 subcircuit with the NMOS transistor (BS170).](WL.png)
-Final configuration of the WL2 subcircuit with the NMOS transistor (BS170).
+<img src="WL.png" alt="WL2 subcircuit">
+<p style="font-size:0.9em; color:#4d4d4d; font-style:italic; text-align:center;">Final configuration of the WL2 subcircuit with the NMOS transistor (BS170).</p>
+
 ## Lesson
 
 - LEDs only blink alternately when they are configured in such a way that the flow of current is opposite.
