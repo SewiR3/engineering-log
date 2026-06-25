@@ -15,5 +15,14 @@
       <guid>http://localhost:1313/engineering-log/posts/why-parallel-leds-would-not-blink-in-a-556-circuit/</guid>
       <description>Investigating a warning light subcircuit: Parallel LEDs did not blink due to incorrect circuit configuration regarding the operation of the 556 timer.</description>
     </item>
+    <item>
+      <title>About Me</title>
+      <link>http://localhost:1313/engineering-log/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/engineering-log/about/</guid>
+      <description>&lt;p&gt;I am Severin Vire, a first-year engineering student at Monash University.&lt;/p&gt;
+&lt;p&gt;LinkedIn: &lt;a href=&#34;https://www.linkedin.com/in/severin-vire-001439374&#34;&gt;https://www.linkedin.com/in/severin-vire-001439374&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Email: &lt;a href=&#34;mailto:severinvire@gmail.com&#34;&gt;severinvire@gmail.com&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
   </channel>
 </rss>

@@ -13,5 +13,12 @@ math = true
   [params.math]
     enable = true
 
+[menu]
+  [[menu.main]]
+    identifier = "about"
+    name = "About Me"
+    url = "/about"
+    weight = 10
+
 [privacy]
   disallow = ["twitter", "youtube", "vimeo", "instagram", "disqus", "googleanalytics"]
