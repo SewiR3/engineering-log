@@ -1,39 +1,57 @@
 ---
-title: "Why parallel LEDs would not blink in a 556 circuit"
-date: 2026-06-08
+title: "Why parallel LEDs would not blink when using a 556 timer"
+date: 2026-06-25
 draft: false
-summary: "Diagnosing a 556 timer warning light circuit: parallel LEDs refused to blink because of current hogging and a missing per‑LED current‑limiting resistor."
+summary: "Investigating a warning light subcircuit: Parallel LEDs did not blink due to incorrect circuit configuration regarding the operation of the 556 timer."
 ---
 
 ## Context
-Traffic light subsystem for ENG1013. A 556 dual timer generates a flashing signal for warning lights (WL2). The output (pin 5 or 9) was supposed to drive two red LEDs that flash alternately.
 
-## Symptom
-When I connected the two LEDs in parallel directly to the output pin, neither blinked. The 556's output measured a flat ~0.6 V. Removing one LED made the other blink faintly. Something was dragging the output low.
+Traffic light subsystem 4 circuit in unit ENG1013 included a warning light section (WL2). A 556 timer was intended to generate flashing lights in patterns XOXO/OXOX alternately using four red LEDs, which were arranged in two parallel pairs across two separate branches. However, upon power-up, all LEDs illuminated simultaneously at an approximately equal brightness.
 
 ## Investigation
-- Checked the 556 timing: RC values were correct, astable mode confirmed.
-- Scoped the output pin without load: clean square wave, 2.5 Hz.
-- Suspected the output couldn't supply enough current for two LEDs in parallel.
 
-Measured each LED's forward voltage: one was 1.82 V, the other 1.85 V. Connected them in parallel with a single 220 Ω resistor to Vcc (5 V). The LED with the lower Vf hogged almost all the current – the other stayed dark.
+1. Checked the values of resistors and capacitor connected to the 556 timer:
+  - For $R_A$ = $R_3$ and $R_B$ = $R_4$ + $R_5$, their values were $R_3$ = $R_4$ = $R_5$ = 10 kΩ, and $C_1$ = 10 μF, therefore period = 0.3465 s, which was sufficient to produce visible flashing.
+  - The 556 timer section was reviewed and confirmed that it was correctly connected to the positive and negative rails.
+  - The WL2 section was analysed, and it was identified that both parallel branches had an identical configuration. This was therefore the root cause.
 
+![*The configuration of the 556 timer ($U_3$) with resistors $R_3$, $R_4$, $R_5$ and capacitor $C_1$](556_timer.png)
+
+The configuration of the 556 timer ($U_3$) with resistors $R_3$, $R_4$, $R_5$ and capacitor $C_1$.
 ## Root Cause
-**Parallel LEDs with a shared current-limiting resistor are unstable.** The 556's output stage (a bipolar totem pole) has limited source/sink capability (~100–200 mA). When forced into a current-hogging situation, the output voltage collapses as the transistor saturates and cannot drive the non-matched LED.
 
-Additionally, the 556's output pin sources current when high, but I had wired the LEDs as active-low (cathode to output, anode to Vcc through resistor). This confused the expected logic – the output sinking current when low should turn LEDs on, but the shared resistor still caused imbalance.
+Each branch of WL2 consisted of two identically configured "LED + resistor" strings connected in parallel. Each red LED was labelled with D- and each resistor (330 Ω) was labelled with R-.
 
-## Fix
-1. **Independent resistors:** Each LED got its own 220 Ω resistor, either from Vcc to anode (active-low) or from cathode to GND (active-high). Both worked.
+- Branch 1: Output → (D4 + R7) || (D6 + R9) → GND
+- Branch 2: Output → (D3 + R6) || (D5 + R8) → GND
 
-2. **Confirmed wiring:** In active-low configuration, when the output went low, both LEDs turned on equally. Blinking returned immediately.
+During charging of the capacitor (C1), the lower comparator (inside Timer B of 556 timer) output HIGH to input S of flip-flop, thus state of Q = HIGH, signaling to the Output Driver behind the Output pin to open the path for the current.
 
+Since both branches shared the same nodes at both ends (between Output pin and GND), all the LEDs illuminated simultaneously.
+
+![Internal block diagram of a 555 timer (Timer A/B of the 556). Reproduced from Horowitz & Hill, *The Art of Electronics*, 3rd ed., 2015, p. 428.](555_timer_The_Art_of_Electronics.png)
+
+Internal block diagram of a 555 timer (Timer A/B of the 556). Reproduced from Horowitz & Hill, *The Art of Electronics*, 3rd ed., 2015, p. 428.
+
+## Fix #1
+
+1. **Swapped the positions of each of the LEDs and their adjacent resistors in branch 2.**
+2. **Disconnected branch 2 to GND and reconnected to positive rail (5V).
+
+As the voltage in C1 crossed 2/3 of 5 V, discharging started, Q went LOW, signaling the Output Driver to block the path between 5V and Output, and open the path between GND and Output. Current then flowed from the 5 V rail into Branch 2, turning on its LEDs, then continued into the Output pin to ground. Branch 1 was turned off since both sides equaled 0V; thus, current = 0 A. 
+
+However, since the internal transistor inside the Output Driver still needed a small voltage to turn on and pulled the Output pin low, there was a voltage residue remained relative to ground, leading to a dim light in D4 and D6.
+
+## Fix #2
+
+1. **Connected an NMOS transistor (BS170) to branch 1**.
+
+This solved the light dimming issue by using the transistor's threshold voltage (~2.0 V) to block the current path; therefore, when the node voltages in both sides were identical (5 V), the voltage difference equaled 0 V, current was 0 A. As a result, the D4 and D6 turned off.
+
+![Final configuration of the WL2 subcircuit with the NMOS transistor (BS170).](WL.png)
+Final configuration of the WL2 subcircuit with the NMOS transistor (BS170).
 ## Lesson
-- Never parallel LEDs without individual current-limiting resistors. The one with slightly lower Vf steals current, leading to one bright LED and one off, or total output collapse if the driver can't maintain voltage.
 
-- Always check the datasheet for output drive capability: the 556 can sink/source decent current, but a short or near-short (unequal parallel LEDs) can overload it.
-
-- A simple scope check of the output pin under load pinpointed the collapse.
-
-## Schematic Snippet
-(A hand-drawn sketch of the correct wiring with separate resistors will be scanned and added later.)
+- LEDs only blink alternately when they are configured in such a way that the flow of current is opposite.
+- Adding an NMOS transistor can block the current path if the gate-source voltage is below the threshold voltage.
